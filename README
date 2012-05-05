@@ -1,0 +1,18 @@
+Welcome to Degrees If You Please
+
+I spent way too long searching the web for a quick way to convert a list of latitude/longitude values in decimal degree format to UTM 13 (datum NAD 83) format. If that last sentence didn't make your head spin you are in the right place :)
+
+With this python script all you have to do is add the CSV(s) and click "Convert". You will be asked where you want to save your newly converted file.
+
+User Options:
+1. Select the columns that contain the latitude and longitude values in decimal degree format.
+2. Whether the first row in the first file contains headings that we wish to skip over.
+3. Option to remove the first row (which usually contains the headings) from every subsequent file.
+
+If the majority of this code looks familiar it's because most of the user interface is borrowed from my CommaCombine program also hosted here on github.
+
+Note: For all you math geeks out there the calculations take place between lines 136 and 195 :)
+
+Enjoy!
+
+(credit for the name of this script goes to my lovely wife Erin)
