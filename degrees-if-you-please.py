@@ -161,10 +161,14 @@ class mainScreen():
                 f1 = 298.2572236
 
 
-                if ew == "w":
-                    H12 = int((180+longitudeWithSign)/6)+1
+                ## Check if we are to work this out or keep it at 13
+                if self.stayAt13.get_active():
+                    H12 = 13
                 else:
-                    H12 = int(longitudeWithSign/6)+31
+                    if ew == "w":
+                        H12 = int((180+longitudeWithSign)/6)+1
+                    else:
+                        H12 = int(longitudeWithSign/6)+31
 
                 H13 = 6*H12-183
 
@@ -323,6 +327,18 @@ class mainScreen():
         main_vbox.pack_start(removeHeadings_hbox, True, False, 0)
         removeHeadings_hbox.pack_start(self.removeHeadingsCheck, False, False, 0)
         removeHeadings_hbox.pack_start(removeHeadingslabel, False, False, 0)
+        ###
+        self.stayAt13 = gtk.CheckButton()
+        self.stayAt13.set_active(True)
+        
+        stayAt13label = gtk.Label("No matter what the math says, keep the zone at 13 U")
+        stayAt13label.set_alignment(0.5, 0.5)
+        stayAt13label.set_line_wrap(True)
+
+        stayAt13label_hbox = gtk.HBox(False, 5)
+        main_vbox.pack_start(stayAt13label_hbox, True, False, 0)
+        stayAt13label_hbox.pack_start(self.stayAt13, False, False, 0)
+        stayAt13label_hbox.pack_start(stayAt13label, False, False, 0)
         ####Buttons#####
         importButton = gtk.Button("Convert!")
         importButton.connect("clicked", self.convert)

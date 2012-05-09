@@ -8,6 +8,7 @@ User Options:
 1. Select the columns that contain the latitude and longitude values in decimal degree format.
 2. Whether the first row in the first file contains headings that we wish to skip over.
 3. Option to remove the first row (which usually contains the headings) from every subsequent file.
+4. Depending of your situation you may need to ignore the math and always keep the Zone at 13U during the conversion.
 
 If the majority of this code looks familiar it's because most of the user interface is borrowed from my CommaCombine program also hosted here on github.
 
