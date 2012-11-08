@@ -133,72 +133,75 @@ class mainScreen():
 
             for count in range(0,len(self.dataArray)):
 
-                latitude = float(self.dataArray[count][self.latspinner.get_value_as_int()-1])
-                longitude = float(self.dataArray[count][self.lonspinner.get_value_as_int()-1])
+                # Ignore blank values
+                if self.dataArray[count][self.latspinner.get_value_as_int()-1] != "" and self.dataArray[count][self.lonspinner.get_value_as_int()-1] != "":
 
-                longitudeWithSign = longitude
+                    latitude = float(self.dataArray[count][self.latspinner.get_value_as_int()-1])
+                    longitude = float(self.dataArray[count][self.lonspinner.get_value_as_int()-1])
 
-                k0 = 0.9996
+                    longitudeWithSign = longitude
 
-
-                if latitude > 0:
-                    ns = "n"
-                else:
-                    ns = "s"
-                    latitude = latitude * -1
-
-                if longitude > 0:
-                    ew = "e"
-                else:
-                    ew = "w"
-                    longitude = longitude * -1
+                    k0 = 0.9996
 
 
-                #NAD 83 
-                a = 6378137.0
-                b = 6356752.314 
-                f = 0.003352811 
-                f1 = 298.2572236
-
-
-                ## Check if we are to work this out or keep it at 13
-                if self.stayAt13.get_active():
-                    H12 = 13
-                else:
-                    if ew == "w":
-                        H12 = int((180+longitudeWithSign)/6)+1
+                    if latitude > 0:
+                        ns = "n"
                     else:
-                        H12 = int(longitudeWithSign/6)+31
+                        ns = "s"
+                        latitude = latitude * -1
 
-                H13 = 6*H12-183
-
-                Latr = latitude*math.pi/180
-
-                dL = (longitudeWithSign-H13)*math.pi/180
-
-                T = (math.tan(Latr))**2
-
-                e =math.sqrt(1-(b/a)**2)
-
-                ee =e*e/(1-e*e)
-
-                C0 =ee*(math.cos(Latr))**2
-
-                A0 = dL*math.cos(Latr)
-
-                N = a/math.sqrt(1-e*e*(math.sin(Latr)**2))
-
-                M = a*((1-(e*e/4)-3*e**4/64-5*e**6/256)*Latr-(3*e*e/8+3*e**4/32+45*e**6/1024)*math.sin(2*Latr)+(15*e**4/256+45*e**6/1024)*math.sin(4*Latr)-(35*e**6/3072)*math.sin(6*Latr))
-
-                x = k0*N*(A0 + (1-T+C0)*A0**3/6 + (5-18*T+T*T+72*C0-58*ee)*A0**5/120)
-
-                Northing  = k0*(M + N*math.tan(Latr)*(A0*A0/2 + (5 - T +9*C0 +4*C0*C0 )*A0**4/24 + (61-148*T+16*T*T)*A0**6/720 ))
+                    if longitude > 0:
+                        ew = "e"
+                    else:
+                        ew = "w"
+                        longitude = longitude * -1
 
 
-                Easting = 500000+x
+                    #NAD 83 
+                    a = 6378137.0
+                    b = 6356752.314 
+                    f = 0.003352811 
+                    f1 = 298.2572236
 
-                self.dataArray[count][self.latspinner.get_value_as_int()-1] = Northing
-                self.dataArray[count][self.lonspinner.get_value_as_int()-1] = Easting
+
+                    ## Check if we are to work this out or keep it at 13
+                    if self.stayAt13.get_active():
+                        H12 = 13
+                    else:
+                        if ew == "w":
+                            H12 = int((180+longitudeWithSign)/6)+1
+                        else:
+                            H12 = int(longitudeWithSign/6)+31
+
+                    H13 = 6*H12-183
+
+                    Latr = latitude*math.pi/180
+
+                    dL = (longitudeWithSign-H13)*math.pi/180
+
+                    T = (math.tan(Latr))**2
+
+                    e =math.sqrt(1-(b/a)**2)
+
+                    ee =e*e/(1-e*e)
+
+                    C0 =ee*(math.cos(Latr))**2
+
+                    A0 = dL*math.cos(Latr)
+
+                    N = a/math.sqrt(1-e*e*(math.sin(Latr)**2))
+
+                    M = a*((1-(e*e/4)-3*e**4/64-5*e**6/256)*Latr-(3*e*e/8+3*e**4/32+45*e**6/1024)*math.sin(2*Latr)+(15*e**4/256+45*e**6/1024)*math.sin(4*Latr)-(35*e**6/3072)*math.sin(6*Latr))
+
+                    x = k0*N*(A0 + (1-T+C0)*A0**3/6 + (5-18*T+T*T+72*C0-58*ee)*A0**5/120)
+
+                    Northing  = k0*(M + N*math.tan(Latr)*(A0*A0/2 + (5 - T +9*C0 +4*C0*C0 )*A0**4/24 + (61-148*T+16*T*T)*A0**6/720 ))
+
+
+                    Easting = 500000+x
+
+                    self.dataArray[count][self.latspinner.get_value_as_int()-1] = Northing
+                    self.dataArray[count][self.lonspinner.get_value_as_int()-1] = Easting
 
             if self.sortCheck.get_active():
                 self.dataArray.insert(0,tempArray)
